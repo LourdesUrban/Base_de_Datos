@@ -83,3 +83,21 @@
       /*CAMBIAR TAMAÑO DE LA DIRECCION DE SUCURSAL*/
       ALTER TABLE sucursal
       CHANGE direccion_sucursal direccion_sucursal VARCHAR(200);
+
+
+      ALTER TABLE venta
+      RENAME nota_venta;
+      
+      ALTER TABLE provedor
+      DROP tipo_provedor;
+      
+      /*DROP TABLE cliente;*/
+      
+      /*DROP DATABASE empresaX*/
+      /*INSERTAR DATOS*/
+
+
+      INSERT INTO sucursal VALUES('A0001','Calle 1 num 2 colonia centro, alcaldia AZC, CP02200','5566447788','sucursal1@empresax.com');
+
+
+https://www.db-fiddle.com/f/rLRxgy9kynr2oiV4s5WNHe/0
