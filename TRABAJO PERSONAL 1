@@ -1,137 +1,226 @@
 CREATE DATABASE empresaX;
 USE empresaX;
+
+-- Crear tabla sucursal
 CREATE TABLE sucursal(
-	codigo_sucursal CHAR(5) PRIMARY KEY,
-    direccion_sucursal VARCHAR(20),
+    codigo_sucursal CHAR(5) PRIMARY KEY,
+    direccion_sucursal VARCHAR(200), -- Cambio del tamaño
     tel_sucursal CHAR(10),
     correo_sucursal VARCHAR(50)
 );
-CREATE TABLE provedor(
-    codigo_provedor CHAR(5) PRIMARY KEY,
-    nombre_provedor VARCHAR(20) NOT NULL,
-    direccion_provedor VARCHAR(200),
-    tel_provedor CHAR(10),
-    correo_provedor VARCHAR(20),
-    tipo_provedor VARCHAR(20)
+
+
+CREATE TABLE proveedor(
+    codigo_proveedor CHAR(5) PRIMARY KEY,
+    nombre_proveedor VARCHAR(20) NOT NULL,
+    direccion_proveedor VARCHAR(200),
+    tel_proveedor CHAR(10),
+    correo_proveedor VARCHAR(50)
 );
+
+-- Crear tabla cliente
 CREATE TABLE cliente(
-	codigo_cliente CHAR(5) PRIMARY KEY,
+    codigo_cliente CHAR(5) PRIMARY KEY,
     nombre_cliente VARCHAR(50) NOT NULL,
-    dirección_cliente VARCHAR(200),
+    direccion_cliente VARCHAR(200),
     tel_cliente CHAR(10),
     correo_cliente VARCHAR(50),
-    codigo_sucursal1 CHAR(5),
-    FOREIGN KEY (codigo_sucursal1) REFERENCES sucursal (codigo_sucursal)
+    codigo_sucursal CHAR(5),
+    FOREIGN KEY (codigo_sucursal) REFERENCES sucursal(codigo_sucursal)
 );
+
+-- Crear tabla producto
 CREATE TABLE producto(
-	codigo_producto CHAR(5) PRIMARY KEY,
-	nombre_producto VARCHAR(20) NOT NULL,
-	precio_producto DOUBLE UNSIGNED, 
-	existencia_producto INT UNSIGNED,
-	descripcion_producto VARCHAR(200),
-	codigo_provedor1 CHAR(5),
-	FOREIGN KEY (codigo_provedor1) REFERENCES provedor(codigo_provedor)
+    codigo_producto CHAR(5) PRIMARY KEY,
+    nombre_producto VARCHAR(20) NOT NULL,
+    precio_producto DOUBLE UNSIGNED,
+    existencia_producto INT UNSIGNED,
+    descripcion_producto VARCHAR(200),
+    codigo_proveedor CHAR(5),
+    FOREIGN KEY (codigo_proveedor) REFERENCES proveedor(codigo_proveedor)
 );
+
+-- Crear tabla categoría
 CREATE TABLE categoria(
-	codigo_categoria CHAR(5) PRIMARY KEY,
+    codigo_categoria CHAR(5) PRIMARY KEY,
     nombre_categoria VARCHAR(20) NOT NULL,
     descripcion_categoria VARCHAR(50),
-    codigo_provedor2 CHAR(5),
-    FOREIGN KEY (codigo_provedor2) REFERENCES provedor(codigo_provedor)
+    codigo_proveedor CHAR(5),
+    FOREIGN KEY (codigo_proveedor) REFERENCES proveedor(codigo_proveedor)
 );
 
+-- Crear tabla empleado
 CREATE TABLE empleado(
-	codigo_empleado CHAR(5) PRIMARY KEY,
-	nombre_empleado VARCHAR(50) NOT NULL,
+    codigo_empleado CHAR(5) PRIMARY KEY,
+    nombre_empleado VARCHAR(50) NOT NULL,
     direccion_empleado VARCHAR(200),
     tel_empleado CHAR(10),
-    correo_empleado VARCHAR(20),
-    codigo_sucursal2 CHAR(5),
-    FOREIGN KEY (codigo_sucursal2) REFERENCES sucursal(codigo_sucursal)
+    correo_empleado VARCHAR(50),
+    edad_empleado INT, -- Se agrega la columna de edad
+    codigo_sucursal CHAR(5),
+    FOREIGN KEY (codigo_sucursal) REFERENCES sucursal(codigo_sucursal)
 );
 
-CREATE TABLE venta(
-	codigo_cliente1 VARCHAR(5),
-    codigo_producto1 CHAR(5),
+-- Crear tabla venta
+CREATE TABLE nota_venta( -- Renombrada desde 'venta' a 'nota_venta'
+    codigo_cliente CHAR(5),
+    codigo_producto CHAR(5),
     fecha_compra DATE,
     cantidad INT,
     total DOUBLE,
-    FOREIGN KEY (codigo_cliente1) REFERENCES cliente(codigo_cliente),
-    FOREIGN KEY (codigo_producto1) references producto(codigo_producto)
+    FOREIGN KEY (codigo_cliente) REFERENCES cliente(codigo_cliente),
+    FOREIGN KEY (codigo_producto) REFERENCES producto(codigo_producto)
 );
+-- Insertar datos en la tabla sucursal
+INSERT INTO sucursal VALUES 
+('S001', 'Av. Insurgentes 100, CDMX', '5512345678', 'sucursal1@empresa.com'),
+('S002', 'Calle Reforma 200, CDMX', '5512345679', 'sucursal2@empresa.com'),
+('S003', 'Paseo de la Reforma 300, CDMX', '5512345680', 'sucursal3@empresa.com'),
+('S004', 'Av. Juárez 400, CDMX', '5512345681', 'sucursal4@empresa.com'),
+('S005', 'Calle Tacuba 500, CDMX', '5512345682', 'sucursal5@empresa.com'),
+('S006', 'Av. Universidad 600, CDMX', '5512345683', 'sucursal6@empresa.com'),
+('S007', 'Calle Hamburgo 700, CDMX', '5512345684', 'sucursal7@empresa.com'),
+('S008', 'Paseo de la Reforma 800, CDMX', '5512345685', 'sucursal8@empresa.com'),
+('S009', 'Av. Chapultepec 900, CDMX', '5512345686', 'sucursal9@empresa.com'),
+('S010', 'Calle Londres 1000, CDMX', '5512345687', 'sucursal10@empresa.com'),
+('S011', 'Av. División del Norte 1100, CDMX', '5512345688', 'sucursal11@empresa.com'),
+('S012', 'Calle Montevideo 1200, CDMX', '5512345689', 'sucursal12@empresa.com'),
+('S013', 'Av. Patriotismo 1300, CDMX', '5512345690', 'sucursal13@empresa.com'),
+('S014', 'Calle Morelos 1400, CDMX', '5512345691', 'sucursal14@empresa.com'),
+('S015', 'Av. Revolución 1500, CDMX', '5512345692', 'sucursal15@empresa.com'),
+('S016', 'Calle Amsterdam 1600, CDMX', '5512345693', 'sucursal16@empresa.com'),
+('S017', 'Av. Cuauhtémoc 1700, CDMX', '5512345694', 'sucursal17@empresa.com'),
+('S018', 'Calle Querétaro 1800, CDMX', '5512345695', 'sucursal18@empresa.com'),
+('S019', 'Av. Monterrey 1900, CDMX', '5512345696', 'sucursal19@empresa.com'),
+('S020', 'Calle Sonora 2000, CDMX', '5512345697', 'sucursal20@empresa.com');
 
-/*AGREGAR A LA TABLA CLIENTE "EDAD"*/
 
-ALTER TABLE empleado
-ADD edad_empleado INT;
+-- Insertar datos en la tabla proveedor
+INSERT INTO proveedor VALUES 
+('P001', 'ElectroMex', 'Calle A 100, CDMX', '5511111111', 'contacto@electromex.com'),
+('P002', 'Ferretería Total', 'Calle B 200, CDMX', '5522222222', 'ventas@ferreteriatotal.com'),
+('P003', 'Muebles Rápido', 'Calle C 300, CDMX', '5533333333', 'info@mueblesrapido.com'),
+('P004', 'Tecnocom', 'Calle D 400, CDMX', '5544444444', 'tecnocom@proveedores.com'),
+('P005', 'Iluminación X', 'Calle E 500, CDMX', '5555555555', 'ilumina@proveedores.com'),
+('P006', 'Papelería Plus', 'Calle F 600, CDMX', '5566666666', 'papeleriaplus@proveedores.com'),
+('P007', 'Hogar y Más', 'Calle G 700, CDMX', '5577777777', 'hogarymas@proveedores.com'),
+('P008', 'Herramientas Pro', 'Calle H 800, CDMX', '5588888888', 'herramientaspro@proveedores.com'),
+('P009', 'Textiles Finos', 'Calle I 900, CDMX', '5599999999', 'textiles@proveedores.com'),
+('P010', 'DecoHome', 'Calle J 1000, CDMX', '5500000000', 'decohome@proveedores.com'),
+('P011', 'Automotriz XX', 'Calle K 1100, CDMX', '5510101010', 'autos@proveedores.com'),
+('P012', 'Electrónica Viva', 'Calle L 1200, CDMX', '5520202020', 'electronica@proveedores.com'),
+('P013', 'Ropa y Estilo', 'Calle M 1300, CDMX', '5530303030', 'ropa@proveedores.com'),
+('P014', 'Calzado del Norte', 'Calle N 1400, CDMX', '5540404040', 'calzado@proveedores.com'),
+('P015', 'Librería Central', 'Calle O 1500, CDMX', '5550505050', 'libreria@proveedores.com'),
+('P016', 'Jardinería Express', 'Calle P 1600, CDMX', '5560606060', 'jardineria@proveedores.com'),
+('P017', 'Deportes King', 'Calle Q 1700, CDMX', '5570707070', 'deportes@proveedores.com'),
+('P018', 'ElectroLux', 'Calle R 1800, CDMX', '5580808080', 'electrolux@proveedores.com'),
+('P019', 'Moda Urbana', 'Calle S 1900, CDMX', '5590909090', 'modaurbana@proveedores.com'),
+('P020', 'Construcciones SA', 'Calle T 2000, CDMX', '5501010101', 'construcciones@proveedores.com');
 
-/*CAMBIOS EN DIRECCIÓN, ampliar varchar de 20 a 200*/
-ALTER TABLE sucursal
-CHANGE direccion_sucursal direccion_sucursal VARCHAR(200);
 
-USE empresaX;
+-- Insertar datos en la tabla cliente
+INSERT INTO cliente VALUES 
+('C001', 'Carlos Martínez', 'Calle 1, CDMX', '5511111112', 'carlos@clientes.com', 'S001'),
+('C002', 'Ana López', 'Calle 2, CDMX', '5511111113', 'ana@clientes.com', 'S002'),
+('C003', 'Pedro García', 'Calle 3, CDMX', '5511111114', 'pedro@clientes.com', 'S003'),
+('C004', 'Marta Sánchez', 'Calle 4, CDMX', '5511111115', 'marta@clientes.com', 'S004'),
+('C005', 'Luis Pérez', 'Calle 5, CDMX', '5511111116', 'luis@clientes.com', 'S005'),
+('C006', 'Lucía Ramírez', 'Calle 6, CDMX', '5511111117', 'lucia@clientes.com', 'S006'),
+('C007', 'José Fernández', 'Calle 7, CDMX', '5511111118', 'jose@clientes.com', 'S007'),
+('C008', 'Laura Torres', 'Calle 8, CDMX', '5511111119', 'laura@clientes.com', 'S008'),
+('C009', 'Daniela Ortiz', 'Calle 9, CDMX', '5511111120', 'daniela@clientes.com', 'S009'),
+('C010', 'Ricardo Castillo', 'Calle 10, CDMX', '5511111121', 'ricardo@clientes.com', 'S010'),
+('C011', 'María Rojas', 'Calle 11, CDMX', '5511111122', 'maria@clientes.com', 'S011'),
+('C012', 'Juan Rodríguez', 'Calle 12, CDMX', '5511111123', 'juan@clientes.com', 'S012'),
+('C013', 'Sofía Morales', 'Calle 13, CDMX', '5511111124', 'sofia@clientes.com', 'S013'),
+('C014', 'Miguel Jiménez', 'Calle 14, CDMX', '5511111125', 'miguel@clientes.com', 'S014'),
+('C015', 'Carmen Díaz', 'Calle 15, CDMX', '5511111126', 'carmen@clientes.com', 'S015'),
+('C016', 'Francisco Gómez', 'Calle 16, CDMX', '5511111127', 'francisco@clientes.com', 'S016'),
+('C017', 'Verónica Herrera', 'Calle 17, CDMX', '5511111128', 'veronica@clientes.com', 'S017'),
+('C018', 'Antonio Vargas', 'Calle 18, CDMX', '5511111129', 'antonio@clientes.com', 'S018'),
+('C019', 'Gloria Ruiz', 'Calle 19, CDMX', '5511111130', 'gloria@clientes.com', 'S019'),
+('C020', 'Roberto Sánchez', 'Calle 20, CDMX', '5511111131', 'roberto@clientes.com', 'S020');
 
-/*RENOMBRAR TABLA VENTA*/
-ALTER TABLE venta /*que vas a modificar?*/
-RENAME nota_venta; /*cambio que hará*/
-/*ELIMINAR tipo_provedor*/
-ALTER TABLE provedor
-DROP tipo_provedor; /*si tiene referencias con otro datos de otr tabla no nos va a dejar eliminar;delate solo borra datos, drop borra todo*/
+-- Insertar datos en la tabla producto
+INSERT INTO producto VALUES 
+('PR001', 'Taladro', 1500, 50, 'Taladro eléctrico de alta potencia.', 'P001'),
+('PR002', 'Lámpara LED', 300, 200, 'Lámpara LED de bajo consumo.', 'P002'),
+('PR003', 'Escritorio', 2500, 30, 'Escritorio de madera con cajones.', 'P003'),
+('PR004', 'Monitor', 4000, 20, 'Monitor 24 pulgadas HD.', 'P004'),
+('PR005', 'Silla de Oficina', 1200, 40, 'Silla ergonómica para oficina.', 'P005'),
+('PR006', 'Impresora', 2500, 15, 'Impresora multifuncional a color.', 'P006'),
+('PR007', 'Mochila', 800, 100, 'Mochila resistente al agua.', 'P007'),
+('PR008', 'Taladro Inalámbrico', 2200, 35, 'Taladro sin cables de alta potencia.', 'P008'),
+('PR009', 'Cortinas', 600, 60, 'Cortinas opacas de 2x2 metros.', 'P009'),
+('PR010', 'Jarrón Decorativo', 350, 80, 'Jarrón de cerámica pintado a mano.', 'P010'),
+('PR011', 'Cámara de Seguridad', 3000, 25, 'Cámara con visión nocturna y audio.', 'P011'),
+('PR012', 'Teclado Mecánico', 1500, 50, 'Teclado gaming con retroiluminación.', 'P012'),
+('PR013', 'Gafas de Sol', 500, 150, 'Gafas polarizadas para el sol.', 'P013'),
+('PR014', 'Zapatos Deportivos', 1200, 70, 'Zapatos deportivos de alta durabilidad.', 'P014'),
+('PR015', 'Libro de Cocina', 300, 100, 'Recetas rápidas y fáciles.', 'P015'),
+('PR016', 'Tijeras de Jardín', 450, 40, 'Tijeras para poda y jardinería.', 'P016'),
+('PR017', 'Pelota de Fútbol', 700, 90, 'Pelota oficial de fútbol profesional.', 'P017'),
+('PR018', 'Refrigerador', 8000, 10, 'Refrigerador de dos puertas.', 'P018'),
+('PR019', 'Camiseta', 200, 120, 'Camiseta de algodón básica.', 'P019'),
+('PR020', 'Cemento', 150, 200, 'Saco de cemento de 50 kg.', 'P020');
 
-USE empresaX;
-INSERT INTO sucursal VALUES('A0001', 'Calle1 num 2 colonia centro, alcaldia AZC, CP02200', '5544226677','sucursal1@empresax.com');
-SELECT *
-FROM sucursal;
+-- Insertar datos en la tabla categoría
+INSERT INTO categoria VALUES 
+('CT001', 'Electrónica', 'Productos electrónicos', 'P001'),
+('CT002', 'Iluminación', 'Lámparas y luces', 'P002'),
+('CT003', 'Muebles', 'Mobiliario para oficina', 'P003'),
+('CT004', 'Tecnología', 'Gadgets y tecnología', 'P004'),
+('CT005', 'Oficina', 'Sillas y mesas de oficina', 'P005'),
+('CT006', 'Impresoras', 'Equipos de impresión', 'P006'),
+('CT007', 'Accesorios', 'Mochilas y bolsas', 'P007'),
+('CT008', 'Herramientas', 'Herramientas de construcción', 'P008'),
+('CT009', 'Decoración', 'Artículos decorativos', 'P009'),
+('CT010', 'Seguridad', 'Cámaras y sistemas de seguridad', 'P010'),
+('CT011', 'Gaming', 'Accesorios para videojuegos', 'P011'),
+('CT012', 'Moda', 'Ropa y accesorios', 'P012'),
+('CT013', 'Calzado', 'Zapatos y botas', 'P013'),
+('CT014', 'Libros', 'Libros y publicaciones', 'P014'),
+('CT015', 'Jardinería', 'Herramientas para jardín', 'P015'),
+('CT016', 'Deportes', 'Artículos deportivos', 'P016'),
+('CT017', 'Electrodomésticos', 'Equipos para el hogar', 'P017'),
+('CT018', 'Ropa', 'Vestimenta casual', 'P018'),
+('CT019', 'Construcción', 'Materiales de construcción', 'P019'),
+('CT020', 'Papelería', 'Útiles escolares y oficina', 'P020');
 
-INSERT INTO Empleados (codigo_empleado, nombre_empleado, direccion_empleado, telefono_empleado, correo_empleado, edad_empleado) VALUES
-('A0001', 'Juan Pérez', 'Calle Falsa 123', '555-1234', 'juan.perez@example.com', 25),
-('A0002', 'María López', 'Avenida Siempre Viva 742', '555-5678', 'maria.lopez@example.com', 32),
-('A0003', 'Carlos García', 'Boulevard de los Sueños 456', '555-8765', 'carlos.garcia@example.com', 45),
-('A0004', 'Ana Martínez', 'Calle de la Amargura 789', '555-4321', 'ana.martinez@example.com', 29),
-('A0005', 'Luis Hernández', 'Avenida de la Paz 101', '555-6789', 'luis.hernandez@example.com', 38),
-('A0006', 'Laura Gómez', 'Calle del Río 202', '555-3456', 'laura.gomez@example.com', 41),
-('A0007', 'Pedro Ramírez', 'Avenida del Mar 303', '555-7890', 'pedro.ramirez@example.com', 27),
-('A0008', 'Sofía Torres', 'Calle del Sol 404', '555-9876', 'sofia.torres@example.com', 34),
-('A0009', 'Miguel Díaz', 'Boulevard de la Luna 505', '555-6543', 'miguel.diaz@example.com', 50),
-('A0010', 'Elena Fernández', 'Calle de las Flores 606', '555-3210', 'elena.fernandez@example.com', 22),
-('A0011', 'Jorge Ruiz', 'Avenida de los Pinos 707', '555-4321', 'jorge.ruiz@example.com', 47),
-('A0012', 'Patricia Sánchez', 'Calle de la Esperanza 808', '555-8765', 'patricia.sanchez@example.com', 36),
-('A0013', 'Roberto Castillo', 'Boulevard de los Ángeles 909', '555-5678', 'roberto.castillo@example.com', 53),
-('A0014', 'Gabriela Morales', 'Avenida de la Libertad 101', '555-6789', 'gabriela.morales@example.com', 28),
-('A0015', 'Fernando Ortiz', 'Calle de la Paz 202', '555-7890', 'fernando.ortiz@example.com', 39),
-('A0016', 'Isabel Mendoza', 'Boulevard de los Sueños 303', '555-9876', 'isabel.mendoza@example.com', 44),
-('A0017', 'Ricardo Vargas', 'Avenida del Sol 404', '555-3456', 'ricardo.vargas@example.com', 31),
-('A0018', 'Carmen Rojas', 'Calle del Río 505', '555-6543', 'carmen.rojas@example.com', 26),
-('A0019', 'Andrés Navarro', 'Boulevard de la Luna 606', '555-3210', 'andres.navarro@example.com', 48),
-('A0020', 'Verónica Herrera', 'Avenida de los Pinos 707', '555-4321', 'veronica.herrera@example.com', 37),
-('A0021', 'Héctor Jiménez', 'Calle de las Flores 808', '555-8765', 'hector.jimenez@example.com', 52),
-('A0022', 'Mónica Castro', 'Boulevard de los Ángeles 909', '555-5678', 'monica.castro@example.com', 24),
-('A0023', 'Raúl Silva', 'Avenida de la Libertad 101', '555-6789', 'raul.silva@example.com', 43),
-('A0024', 'Adriana Ramos', 'Calle de la Paz 202', '555-7890', 'adriana.ramos@example.com', 30),
-('A0025', 'Francisco Reyes', 'Boulevard de los Sueños 303', '555-9876', 'francisco.reyes@example.com', 49),
-('A0026', 'Claudia Romero', 'Avenida del Sol 404', '555-3456', 'claudia.romero@example.com', 35),
-('A0027', 'Eduardo Peña', 'Calle del Río 505', '555-6543', 'eduardo.pena@example.com', 42),
-('A0028', 'Silvia Aguilar', 'Boulevard de la Luna 606', '555-3210', 'silvia.aguilar@example.com', 51),
-('A0029', 'Manuel Soto', 'Avenida de los Pinos 707', '555-4321', 'manuel.soto@example.com', 23),
-('A0030', 'Rosa Delgado', 'Calle de las Flores 808', '555-8765', 'rosa.delgado@example.com', 46),
-('A0031', 'Alberto Guzmán', 'Boulevard de los Ángeles 909', '555-5678', 'alberto.guzman@example.com', 54),
-('A0032', 'Daniela Paredes', 'Avenida de la Libertad 101', '555-6789', 'daniela.paredes@example.com', 29),
-('A0033', 'Javier Estrada', 'Calle de la Paz 202', '555-7890', 'javier.estrada@example.com', 40),
-('A0034', 'Lucía Vega', 'Boulevard de los Sueños 303', '555-9876', 'lucia.vega@example.com', 33),
-('A0035', 'Antonio Campos', 'Avenida del Sol 404', '555-3456', 'antonio.campos@example.com', 55),
-('A0036', 'Paula Fuentes', 'Calle del Río 505', '555-6543', 'paula.fuentes@example.com', 38),
-('A0037', 'Sergio León', 'Boulevard de la Luna 606', '555-3210', 'sergio.leon@example.com', 27),
-('A0038', 'Mariana Cabrera', 'Avenida de los Pinos 707', '555-4321', 'mariana.cabrera@example.com', 44),
-('A0039', 'Felipe Salinas', 'Calle de las Flores 808', '555-8765', 'felipe.salinas@example.com', 32),
-('A0040', 'Natalia Ortiz', 'Boulevard de los Ángeles 909', '555-5678', 'natalia.ortiz@example.com', 41),
-('A0041', 'Guillermo Méndez', 'Avenida de la Libertad 101', '555-6789', 'guillermo.mendez@example.com', 36),
-('A0042', 'Alejandra Lara', 'Calle de la Paz 202', '555-7890', 'alejandra.lara@example.com', 28),
-('A0043', 'Óscar Flores', 'Boulevard de los Sueños 303', '555-9876', 'oscar.flores@example.com', 47),
-('A0044', 'Valeria Soto', 'Avenida del Sol 404', '555-3456', 'valeria.soto@example.com', 34),
-('A0045', 'Enrique Morales', 'Calle del Río 505', '555-6543', 'enrique.morales@example.com', 39),
-('A0046', 'Lorena Vargas', 'Boulevard de la Luna 606', '555-3210', 'lorena.vargas@example.com', 50),
-('A0047', 'Tomás Ríos', 'Avenida de los Pinos 707', '555-4321', 'tomas.rios@example.com', 31),
-('A0048', 'Gloria Peña', 'Calle de las Flores 808', '555-8765', 'gloria.pena@example.com', 45),
-('A0049', 'Ramón Herrera', 'Boulevard de los Ángeles 909', '555-5678', 'ramon.herrera@example.com', 53),
-('A0050', 'Elisa Navarro', 'Avenida de la Libertad 101', '555-6789', 'elisa.navarro@example.com', 26);
+-- Insertar datos en la tabla empleado
+INSERT INTO empleado VALUES 
+('E001', 'Carlos Rodríguez', 'Calle 1, CDMX', '5512345670', 'carlos@empresa.com', 30, 'S001'),
+('E002', 'Ana López', 'Calle 2, CDMX', '5512345671', 'ana@empresa.com', 25, 'S002'),
+('E003', 'Pedro García', 'Calle 3, CDMX', '5512345672', 'pedro@empresa.com', 28, 'S003'),
+('E004', 'Laura Sánchez', 'Calle 4, CDMX', '5512345673', 'laura@empresa.com', 32, 'S004'),
+('E005', 'Luis Pérez', 'Calle 5, CDMX', '5512345674', 'luis@empresa.com', 29, 'S005'),
+('E006', 'María Ramírez', 'Calle 6, CDMX', '5512345675', 'maria@empresa.com', 27, 'S006'),
+('E007', 'José Fernández', 'Calle 7, CDMX', '5512345676', 'jose@empresa.com', 35, 'S007'),
+('E008', 'Sofía Torres', 'Calle 8, CDMX', '5512345677', 'sofia@empresa.com', 26, 'S008'),
+('E009', 'Daniel Martínez', 'Calle 9, CDMX', '5512345678', 'daniel@empresa.com', 33, 'S009'),
+('E010', 'Miguel Herrera', 'Calle 10, CDMX', '5512345679', 'miguel@empresa.com', 31, 'S010'),
+('E011', 'Carmen Díaz', 'Calle 11, CDMX', '5512345680', 'carmen@empresa.com', 24, 'S011'),
+('E012', 'Francisco Gómez', 'Calle 12, CDMX', '5512345681', 'francisco@empresa.com', 36, 'S012'),
+('E013', 'Verónica Rojas', 'Calle 13, CDMX', '5512345682', 'veronica@empresa.com', 22, 'S013'),
+('E014', 'Antonio Jiménez', 'Calle 14, CDMX', '5512345683', 'antonio@empresa.com', 27, 'S014'),
+('E015', 'Claudia Ruiz', 'Calle 15, CDMX', '5512345684', 'claudia@empresa.com', 29, 'S015'),
+('E016', 'Raúl Sánchez', 'Calle 16, CDMX', '5512345685', 'raul@empresa.com', 34, 'S016'),
+('E017', 'Gloria Vázquez', 'Calle 17, CDMX', '5512345686', 'gloria@empresa.com', 28, 'S017'),
+('E018', 'Roberto Castillo', 'Calle 18, CDMX', '5512345687', 'roberto@empresa.com', 32, 'S018'),
+('E019', 'Isabel Ortega', 'Calle 19, CDMX', '5512345688', 'isabel@empresa.com', 26, 'S019'),
+('E020', 'Fernando Delgado', 'Calle 20, CDMX', '5512345689', 'fernando@empresa.com', 30, 'S020');
 
+-- Insertar datos en la tabla nota_venta
+INSERT INTO nota_venta VALUES 
+('C001', 'PR001', '2023-01-01', 2, 3000),
+('C002', 'PR002', '2023-01-05', 5, 1500),
+('C003', 'PR003', '2023-01-10', 1, 2500),
+('C004', 'PR004', '2023-01-15', 3, 12000),
+('C005', 'PR005', '2023-01-20', 2, 2400),
+('C006', 'PR006', '2023-01-25', 1, 2500),
+('C007', 'PR007', '2023-02-01', 4, 3200),
+('C008', 'PR008', '2023-02-05', 1, 2200),
+('C009', 'PR009', '2023-02-10', 2, 1200),
+('C010', 'PR010', '2023-02-15', 3, 1050),
+('C011', 'PR011', '2023-02-20', 1, 300);
